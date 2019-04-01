@@ -198,6 +198,7 @@ public class ListInfoService {
 	public List<String> fetchTopCategory(String[] listInfo) {
 		logger.info("fetchTopCategory: "+ listInfo);
 		List<String> oRetMesgList = new ArrayList();
+		List<Object[]> qryListInfo = null;
 		
 		String strUserName = listInfo[0];				
 		UserInfo oUserInfo = userRepository.findByUsername(strUserName);
@@ -206,14 +207,22 @@ public class ListInfoService {
 			strRetVal = "Error - unknown user";
 			
 		} else {
-		  ListInfo qryListInfo = listInfoRepository.fetchTopCategoryInfo();
+		  qryListInfo = listInfoRepository.fetchTopCategoryInfo();
 		  if (qryListInfo != null) {
-			  strRetVal = qryListInfo.getCategoryName().getCategoryName();
-		  }
+			  //strRetVal = qryListInfo.getCategoryName().getCategoryName();
+			  for(Object[] item : qryListInfo){
+				  
+				  logger.info("fetchTopCategory: "+ item[0] + item[1]);
+				  //strRetVal = item[0] + ":" + item[1];
+				  strRetVal = (String) item[0];
+				  oRetMesgList.add(strRetVal);
+			  } // for 
+		  } else 
+			  oRetMesgList.add(strRetVal);	  
 		    
 		} // if 			
 		
-		oRetMesgList.add(strRetVal);
+		
 		return oRetMesgList;
 	}
 	

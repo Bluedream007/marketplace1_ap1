@@ -34,7 +34,8 @@ public interface ListInfoRepository extends JpaRepository<ListInfo, Long> {
 	@Query(value="SELECT * FROM list_info t Where t.category_name = ?1 Order BY create_time asc",	
 			   nativeQuery = true)
 		List<ListInfo> qrySortByCreatetimeAsc(String category_name);
-		
+	
+	
 	@Query(value="SELECT T2.category_name, COUNT(T2.category_name) " + 
 			     "FROM list_info T2  GROUP BY T2.category_name " + 
 			     "HAVING COUNT(T2.category_name)=( " + 
@@ -44,7 +45,15 @@ public interface ListInfoRepository extends JpaRepository<ListInfo, Long> {
 			                "FROM list_info T1 " + 
 			                "GROUP BY T1.category_name) AS TTT)",	
 			   nativeQuery = true)
-		ListInfo fetchTopCategoryInfo();
+	public List<Object[]> fetchTopCategoryInfo();
+		
+	/*
+	@Query(value="SELECT t.category_name, count(t.category_name) as cnt " + 
+			"FROM list_info t " + 
+			"GROUP BY t.category_name",	
+		   nativeQuery = true)
+	public List<Object[]> fetchTopCategoryInfo();
+	*/
 		
 	
 }
